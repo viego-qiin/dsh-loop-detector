@@ -1,0 +1,31 @@
+{
+  "name": "dsh-loop-detector",
+  "version": "1.0.0",
+  "description": "死循环/重复输出检测插件 for DeepSeek Harness (dsh): 文本重复检测 + 工具调用意图级重复检测, 命中后自动 steer 重试 / cancel 强制中断",
+  "type": "module",
+  "main": "src/index.ts",
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "check": "node --import tsx/esm -e \"import('./src/index.ts').then(m => { console.log('OK', m.name); if (typeof m.apply !== 'function') process.exit(1) }).catch(e => { console.error(e); process.exit(1) })\""
+  },
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "loop-detector",
+    "dead-loop",
+    "repetition",
+    "plugin",
+    "cordis"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "*",
+    "@deepseek-ai/dsh-llm": "*",
+    "@deepseek-ai/dsh-session": "*"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0"
+  }
+}

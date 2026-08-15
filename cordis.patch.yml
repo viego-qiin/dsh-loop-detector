@@ -1,0 +1,9 @@
+# 挂载配置示例 — 复制到你的 profile 的 cordis.patch.yml
+# （$env:USERPROFILE\.dsh\profiles\<profile名>\cordis.patch.yml）
+- insert:
+    - id: loop-detector
+      name: 'dsh-loop-detector'
+      config:
+        minLen: 512          # 输出达 512 字符后才开始检测(防短文本误判)
+        maxRetries: 1        # 死循环自动重试 1 次(steer 引导),再循环则强制取消
+        checkReasoning: true # 同时检测思考内容(reasoning-delta)

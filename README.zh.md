@@ -2,6 +2,9 @@
 
 **DeepSeek Harness (dsh) 的死循环 / 重复输出检测插件。**
 
+[![npm](https://img.shields.io/npm/v/dsh-loop-detector)](https://www.npmjs.com/package/dsh-loop-detector)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+
 本地大模型（尤其是量化版 / RL 微调的思考模型）有时会卡死：要么无限重复同一句话，
 要么用换措辞的 query 反复搜索同一个主题却毫无新信息。本插件实时监听 agent 的输出流，
 检测这两类循环，并**硬中断**——不是模型可以无视的软提醒。
@@ -28,14 +31,21 @@ English docs: [README.md](README.md)
 
 前置：已运行的 dsh profile（见 [deepseek-harness](https://github.com/deepseek-ai/deepseek-harness) 文档）。
 
-**1. 安装到 profile 的插件层：**
+**方式一（推荐）：npm 安装（已发布到 npm registry）**
 
 ```powershell
-# 复制到 profile 的 node_modules（或 pnpm add dsh-loop-detector）
+dsh plugin --profile web add dsh-loop-detector
+dsh web   # 重启生效
+```
+
+**方式二：本地复制安装**
+
+```powershell
+# 复制到 profile 的 node_modules
 cp -r dsh-loop-detector $env:USERPROFILE\.dsh\profiles\web\node_modules\dsh-loop-detector
 ```
 
-**2. 在永久 patch 层挂载**（`$env:USERPROFILE\.dsh\profiles\web\cordis.patch.yml`）：
+**两种方式都需要：挂载配置**（`$env:USERPROFILE\.dsh\profiles\web\cordis.patch.yml`）：
 
 ```yaml
 - insert:
@@ -47,7 +57,7 @@ cp -r dsh-loop-detector $env:USERPROFILE\.dsh\profiles\web\node_modules\dsh-loop
         checkReasoning: true # 同时检测思考内容（reasoning-delta）
 ```
 
-**3. 重启验证：**
+**然后重启验证：**
 
 ```powershell
 dsh web

@@ -2,13 +2,16 @@
 
 **Dead-loop / repetition detector plugin for [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) (dsh).**
 
+[![npm](https://img.shields.io/npm/v/dsh-loop-detector)](https://www.npmjs.com/package/dsh-loop-detector)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+
 Local LLMs (especially quantized / RL-tuned reasoning models) sometimes get stuck:
 repeating the same sentence forever, or re-running `web_search` with reworded queries
 for the same topic without gaining any new information. This plugin watches the
 agent's stream in real time, detects both kinds of loops, and **interrupts them
 hard** — not a soft reminder the model can ignore.
 
-> 中文文档见 [README.zh.md](README.zh.md)。
+> 中文文档见 [README.zh.md](README.zh.md).
 
 ## Features
 
@@ -35,14 +38,20 @@ reminder and keep looping — that's what this plugin exists for.
 
 Prereqs: a running dsh profile (see [deepseek-harness](https://github.com/deepseek-ai/deepseek-harness) docs).
 
-**1. Install the package** into your profile's plugin layer:
+**Option A (recommended): install from npm (published to npm registry)**
 
 ```powershell
-# copy the package into the profile node_modules (or pnpm add dsh-loop-detector)
+dsh plugin --profile web add dsh-loop-detector
+dsh web   # restart to activate
+```
+
+**Option B: install from a local copy**
+
+```powershell
 cp -r dsh-loop-detector $env:USERPROFILE\.dsh\profiles\web\node_modules\dsh-loop-detector
 ```
 
-**2. Mount it** via your profile's permanent patch layer
+**Then, in both cases, mount it** via your profile's permanent patch layer
 (`$env:USERPROFILE\.dsh\profiles\web\cordis.patch.yml`):
 
 ```yaml
@@ -55,7 +64,7 @@ cp -r dsh-loop-detector $env:USERPROFILE\.dsh\profiles\web\node_modules\dsh-loop
         checkReasoning: true # also check reasoning-delta (thinking content)
 ```
 
-**3. Restart** and verify:
+**Restart and verify:**
 
 ```powershell
 dsh web
